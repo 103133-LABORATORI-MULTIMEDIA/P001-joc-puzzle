@@ -13,12 +13,8 @@ $(document).ready(function(){
     * Addicional.- codi del menú que permet escollir imatges i/o el número de peces**/
 
 
-
-
     /*****************************************************************/
-    
-      
-   
+          
     //Comença el joc
     $("#jugar").on("click",function(){
         creaPuzzle();
@@ -33,7 +29,7 @@ $(document).ready(function(){
             * revisa si la distànca entre la posició actual
             * i la posició correcte és inferior a una 
             * distància determinada
-            */           
+            */
             posicionaPeca($(this));
             /**
             * puzzleResolt revisa si totes les peces
@@ -44,7 +40,13 @@ $(document).ready(function(){
                 /**TASCA *****************************
                 * 6.- Codi que mostra la felicitació si puzzleResolt = true
                 * És valora alguna animació o efecte
-                */ 
+                */
+                $("#felicitacio").show();
+                var audio = {};
+                audio["Avengers"] = new Audio();
+                audio["Avengers"].src = "audio\Guardia de la reina Isabel II toca la sintonía de Los Vengadores.mp3"
+                audio["Avengers"].addEventListener('load', function () {
+                audio["Avengers"].play();
             }
         });
 
@@ -155,6 +157,8 @@ function posicionaPeca(peca){
         *  La peça ja no és podrà tornar a moure
         *  
         */ 
+        peca.css("left", posicioPecaCorrecte.left+"px");
+        
     }
 
 }
