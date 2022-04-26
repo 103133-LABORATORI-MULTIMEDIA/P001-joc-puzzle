@@ -140,21 +140,22 @@ function setImatgePosicioPeces(){
 function posicionaPeca(peca){
    
     let posicioPeca = peca.position();
-    /**TASCA *****************************
-    * 1.- Identifica la peça pel seu id (fxcy) i en calcula la
-    * seva posició correcte  (posicioPecaCorrecte) 
-    * 
-    *  
-    */ 
+    let elem_id=peca.attr('id');
+
+    let row=parseInt(elem_id[1]);
+    let col=parseInt(elem_id[3]);
+
+    let h=$("#p-"+nomImatge).height()
+    let l=$("#p-"+nomImatge).width()
+
+
+    let posicioPecaCorrecte=[l - l/col,h - h/row]; 
+    console.log(posicioPecaCorrecte)
     
-    if (distanciaDosPunts(posicioPeca, posicioPecaCorrecte)<10){      
-        /**TASCA *****************************
-        * 2.- Si la distancia és dins del marge determinat
-        * mou la peça a la seva posició correcta
-        *
-        *  La peça ja no és podrà tornar a moure
-        *  
-        */ 
+    if (distanciaDosPunts(posicioPeca, posicioPecaCorrecte)<10){   
+        peca.css("left", posicioPecaCorrecte[1]+"px ");
+        peca.css("top", posicioPecaCorrecte[0]+"px "); 
+        peca.draggable({ disabled:false });
     }
 
 }
@@ -207,3 +208,5 @@ function distanciaDosPunts(puntA, puntB){
     */ 
 }
 
+
+posicionaPeca($("#f1c2"));
