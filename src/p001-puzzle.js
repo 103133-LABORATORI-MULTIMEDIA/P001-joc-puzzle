@@ -3,6 +3,7 @@ var numFiles = 2;
 var numColumnes = 2;
 var nomImatge = "img-2";
 var extImatge = ".jpg";
+var audio = {};
 
 // comença el programa
 $(document).ready(function(){
@@ -17,6 +18,7 @@ $(document).ready(function(){
           
     //Comença el joc
     $("#jugar").on("click",function(){
+        console.log("start");
         creaPuzzle();
         $(".peca")
         .mousedown(function(){
@@ -42,9 +44,9 @@ $(document).ready(function(){
                 * És valora alguna animació o efecte
                 */
                 $("#felicitacio").show();
-                var audio = {};
+                
                 audio["Avengers"] = new Audio();
-                audio["Avengers"].src = "audio\Guardia de la reina Isabel II toca la sintonía de Los Vengadores.mp3"
+                audio["Avengers"].src = "audio\vengadores.mp3"
                 audio["Avengers"].addEventListener('load', function () {
                     audio["Avengers"].play();
                 },);
@@ -122,10 +124,8 @@ function setImatgePosicioPeces(){
             $("#f"+fila+"c"+columna).css("background-position", (-(columna)*ampladaPeca)+"px "+(-(fila)*alcadaPeca)+"px");   
             $("#f"+fila+"c"+columna).css("left", Math.floor(Math.random()*((numColumnes-1)*ampladaPeca))+"px ");
             $("#f"+fila+"c"+columna).css("top", Math.floor(Math.random()*((numFiles-1)*alcadaPeca))+"px ");
-            
         }        
-   }   
-
+    }   
 }
 
 
@@ -150,16 +150,18 @@ function posicionaPeca(peca){
 
     let h=$("#p-"+nomImatge).height()
     let l=$("#p-"+nomImatge).width()
+    console.log(row,col, " - ", h,l);
 
 
+    // var local?
     let posicioPecaCorrecte=[l - l/col,h - h/row]; 
-    console.log(posicioPecaCorrecte)
+    console.log(posicioPecaCorrecte);
 
-    if (distanciaDosPunts(posicioPeca, posicioPecaCorrecte)<10){   
+    if (distanciaDosPunts(posicioPeca, posicioPecaCorrecte)<10){  
+        console.log(elem_id, "correcte!");
         peca.css("left", posicioPecaCorrecte[1]+"px ");
         peca.css("top", posicioPecaCorrecte[0]+"px "); 
-        peca.draggable({ disabled:false });
-
+        peca.draggable("disable");
     }
 }
 
@@ -177,7 +179,8 @@ function resolPuzzle(){
     */ 
     for (let fila=0; fila<numFiles; fila++){
         for (let columna=0; columna<numColumnes; columna++){
-            $("#f"+fila+"c"+columna).css("left", posicioPecaCorrecte.left+"px");
+            $("#f"+fila+"c"+columna).css("top", +"px");
+            $("#f"+fila+"c"+columna).css("left", +"px");
         }        
    }
 }
@@ -196,6 +199,7 @@ function puzzleResolt(){
     */ 
     for (let fila=0; fila<numFiles; fila++){
         for (let columna=0; columna<numColumnes; columna++){
+            // d'on treiem posicioPecaCorrecte
             if (distanciaDosPunts(posicioPecaCorrecte, $("#f"+fila+"c"+columna).position())>10){
                 return false;
             }
