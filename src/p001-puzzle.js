@@ -13,12 +13,8 @@ $(document).ready(function(){
     * Addicional.- codi del menú que permet escollir imatges i/o el número de peces**/
 
 
-
-
     /*****************************************************************/
-    
-      
-   
+          
     //Comença el joc
     $("#jugar").on("click",function(){
         creaPuzzle();
@@ -33,7 +29,7 @@ $(document).ready(function(){
             * revisa si la distànca entre la posició actual
             * i la posició correcte és inferior a una 
             * distància determinada
-            */           
+            */
             posicionaPeca($(this));
             /**
             * puzzleResolt revisa si totes les peces
@@ -44,7 +40,14 @@ $(document).ready(function(){
                 /**TASCA *****************************
                 * 6.- Codi que mostra la felicitació si puzzleResolt = true
                 * És valora alguna animació o efecte
-                */ 
+                */
+                $("#felicitacio").show();
+                var audio = {};
+                audio["Avengers"] = new Audio();
+                audio["Avengers"].src = "audio\Guardia de la reina Isabel II toca la sintonía de Los Vengadores.mp3"
+                audio["Avengers"].addEventListener('load', function () {
+                    audio["Avengers"].play();
+                },);
             }
         });
 
@@ -151,13 +154,13 @@ function posicionaPeca(peca){
 
     let posicioPecaCorrecte=[l - l/col,h - h/row]; 
     console.log(posicioPecaCorrecte)
-    
+
     if (distanciaDosPunts(posicioPeca, posicioPecaCorrecte)<10){   
         peca.css("left", posicioPecaCorrecte[1]+"px ");
         peca.css("top", posicioPecaCorrecte[0]+"px "); 
         peca.draggable({ disabled:false });
-    }
 
+    }
 }
 
 /**
@@ -172,6 +175,11 @@ function resolPuzzle(){
     * seva posició correcte, resolent el puzle
     *  
     */ 
+    for (let fila=0; fila<numFiles; fila++){
+        for (let columna=0; columna<numColumnes; columna++){
+            $("#f"+fila+"c"+columna).css("left", posicioPecaCorrecte.left+"px");
+        }        
+   }
 }
 /**
 * Revisa si totes les peces son al seu lloc
@@ -186,7 +194,14 @@ function puzzleResolt(){
     * correcte, retorna cert
     *  
     */ 
-	
+    for (let fila=0; fila<numFiles; fila++){
+        for (let columna=0; columna<numColumnes; columna++){
+            if (distanciaDosPunts(posicioPecaCorrecte, $("#f"+fila+"c"+columna).position())>10){
+                return false;
+            }
+        }        
+   }
+   return true
 }
 
 
