@@ -46,7 +46,8 @@ $(document).ready(function(){
                 audio["Avengers"] = new Audio();
                 audio["Avengers"].src = "audio\Guardia de la reina Isabel II toca la sintonía de Los Vengadores.mp3"
                 audio["Avengers"].addEventListener('load', function () {
-                audio["Avengers"].play();
+                    audio["Avengers"].play();
+                },);
             }
         });
 
