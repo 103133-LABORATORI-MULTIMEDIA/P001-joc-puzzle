@@ -155,7 +155,7 @@ function posicionaPeca(peca){
         * 2.- Si la distancia és dins del marge determinat
         * mou la peça a la seva posició correcta
         *
-        *  La peça ja no és podrà tornar a moure
+        * FALTA: La peça ja no és podrà tornar a moure
         *  
         */ 
         peca.css("left", posicioPecaCorrecte.left+"px");
@@ -176,6 +176,11 @@ function resolPuzzle(){
     * seva posició correcte, resolent el puzle
     *  
     */ 
+    for (let fila=0; fila<numFiles; fila++){
+        for (let columna=0; columna<numColumnes; columna++){
+            $("#f"+fila+"c"+columna).css("left", posicioPecaCorrecte.left+"px");
+        }        
+   }
 }
 /**
 * Revisa si totes les peces son al seu lloc
