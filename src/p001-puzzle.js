@@ -158,7 +158,7 @@ function posicionaPeca(peca){
         * FALTA: La peça ja no és podrà tornar a moure
         *  
         */ 
-        peca.css("left", posicioPecaCorrecte.left+"px");
+        peca.css("left", posicioPecaCorrecte+"px");
         
     }
 
@@ -195,7 +195,14 @@ function puzzleResolt(){
     * correcte, retorna cert
     *  
     */ 
-	
+    for (let fila=0; fila<numFiles; fila++){
+        for (let columna=0; columna<numColumnes; columna++){
+            if (distanciaDosPunts(posicioPecaCorrecte, $("#f"+fila+"c"+columna).position())>10){
+                return false;
+            }
+        }        
+   }
+   return true
 }
 
 
