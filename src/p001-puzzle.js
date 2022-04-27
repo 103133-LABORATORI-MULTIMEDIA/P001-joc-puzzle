@@ -202,10 +202,11 @@ function puzzleResolt(){
     * correcte, retorna cert
     *  
     */ 
+    let h=$("#p-"+nomImatge).height()
+    let l=$("#p-"+nomImatge).width()
     for (let fila=0; fila<numFiles; fila++){
         for (let columna=0; columna<numColumnes; columna++){
-            // d'on treiem posicioPecaCorrecte
-            if (distanciaDosPunts(posicioPecaCorrecte, $("#f"+fila+"c"+columna).position())>10){
+            if (distanciaDosPunts([l - l/columna,h - h/fila], $("#f"+fila+"c"+columna).position())>10){
                 return false;
             }
         }        
