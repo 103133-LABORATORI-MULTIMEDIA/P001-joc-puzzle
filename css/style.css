@@ -1,6 +1,7 @@
 body{
     background-image: url('../img/moroccan-flower.png');
     position:relative;
+    max-width: 100vw;
 }
 
 #solucio{
@@ -9,7 +10,7 @@ body{
 
 #marc-puzzle{
     margin: 0 auto;
-    border:   8px solid rgb(179, 178, 178);
+    border: 8px solid rgb(179, 178, 178);
     position: relative;
     border-style: outset;
 }
@@ -45,4 +46,31 @@ body{
 }
 #form-menu img {
     height: 200px;
+    border: 5px solid transparent;
+}
+
+#imatges img {
+    position: absolute;
+    top: -100vh;
+
+    max-height: 800px;
+    max-width: 1000px;
+}
+
+button, input[type=button] {
+    background-color: white;
+    padding: 8px 25px;
+    border: 2px solid black;
+    border-radius: 10px;
+    font-weight: bold;
+    text-decoration: none;
+    margin: 20px;
+}
+
+button:hover, input[type=button]:hover {
+    text-decoration: underline;
+}
+
+#counter {
+    margin-top:0 !important;
 }

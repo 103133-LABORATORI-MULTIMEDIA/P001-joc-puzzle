@@ -12,26 +12,24 @@
 
     <div id="form-menu">
       <h2>Escull una imatge.</h2>
-      <img src="img/img-2.jpg" alt="">
-      <img src="img/img-3.jpg" alt="">
-      <br>
 
-      <img src="img/img-4.jpg" alt="">
-      <img src="img/img-5.jpg" alt="">
-      <br>
+      <!-- optimitzar? -->
+      <img id="img-2" src="img/img-2.jpg" alt=""><img id="img-3" src="img/img-3.jpg" alt=""><br>
+      <img id="img-4" src="img/img-4.jpg" alt=""><img id="img-5" src="img/img-5.jpg" alt=""><br>
 
       <h2>Escull un tamany.</h2>
       
 
       <label for="files">Files:</label> <input type="number" id="files" name="files" value="2" min="1" max="5">; 
-      <label for="columnes">Columnes:</label> <input type="number" id="columnes" value="2" name="columnes" min="1" max="5">
+      <label for="columnes">Columnes:</label> <input type="number" id="columnes" value="2" name="columnes" min="1" max="5"><br>
+      <label for="difficult" title="No hi haurà cap imatge de referència per fer el puzle.">Més difícil? </label> <input type="checkbox" name="difficult" id="difficult">
       <p><input type="button" value="JUGAR" id="jugar" class="jugar"/></p>
     </div>
 
-    <div id="form-joc" style="display: none">
-      <p style="text-align: center">
-        <input type="button" value="Tornar a jugar" id="nouPuzzle" class="jugar"/>
-      </p>
+    <div id="form-joc" style="display: none; text-align: center">
+      
+
+      <h1 id="counter">0/</h1>
       <div id="marc-puzzle">
         <div id="solucio"></div>
         <div id="peces-puzzle">
@@ -43,14 +41,17 @@
           <h2>Fes clic al botó per tornar a jugar</h2>
         </div>
       </div>
-      <p style="text-align: center">
-        <input type="button" value="Resol el Puzzle" id="resolPuzzle" />
-      </p>
+      
+      <input type="button" value="Resol el Puzzle" id="resolPuzzle" />
+      <input type="button" value="Tornar a jugar" id="nouPuzzle" class="jugar"/>
     </div>
 
-    <!-- de que serveix aixo? -->
-    <div id="imatges" style="display: none">
-      <img id="p-img-2" src="img/img-2.jpg" width="800" height="800" />
+    <!-- optimitzar? -->
+    <div id="imatges">
+      <img id="p-img-2" src="img/img-2.jpg" />
+      <img id="p-img-3" src="img/img-3.jpg" />
+      <img id="p-img-4" src="img/img-4.jpg" />
+      <img id="p-img-5" src="img/img-5.jpg" />
     </div>
     
 
