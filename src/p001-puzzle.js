@@ -1,25 +1,27 @@
 
-var numFiles = 2;
-var numColumnes = 2;
+var numFiles=2;
+var numColumnes=2;
 var nomImatge = "img-2";
 var extImatge = ".jpg";
-var audio = {};
+var audio = {"Avengers":new Audio("audio\vengadores.mp3")};
 
-// comença el programa
+$.fn.flashUnlimited=function(){
+    $(this).fadeTo(500,0.3,function(){
+        $(this).fadeTo(500,1, $(this).flashUnlimited); 
+    });
+} 
+
 $(document).ready(function(){
+    $("#jugar").on("click",function(){
+        $("#form-menu").hide();
+        $("#felicitacio").hide();
+        
+        $(".peca").css("transition", "none");
 
-    //Esdeveniments de l'usuari
-    //Menú inicial
-    /**TASCA *****************************
-    * Addicional.- codi del menú que permet escollir imatges i/o el número de peces**/
+        numFiles = $("#files").val();
+        numColumnes = $("#columnes").val();
 
-
-    /*****************************************************************/
-          
-    //Comença el joc
-    $(".jugar").on("click",function(){
-
-        console.log("start");
+        console.log(numFiles, numColumnes);
 
         creaPuzzle();
         $(".peca")
@@ -28,55 +30,29 @@ $(document).ready(function(){
             $(this).css("z-index",100);
         })
         .mouseup(function(){
-            /**
-            * PosicionaPeca calcula la posició correcte i 
-            * revisa si la distànca entre la posició actual
-            * i la posició correcte és inferior a una 
-            * distància determinada
-            */
             posicionaPeca($(this));
-            /**
-            * puzzleResolt revisa si totes les peces
-            * estan a la seva posició correcte i 
-            * En cas afirmatiu, mostra la felicitació
-            */ 
             if(puzzleResolt()){
-                /**TASCA *****************************
-                * 6.- Codi que mostra la felicitació si puzzleResolt = true
-                * És valora alguna animació o efecte
-                */
-                $("#felicitacio").show();
-                
-                audio["Avengers"] = new Audio();
-                audio["Avengers"].src = "audio\vengadores.mp3"
-                audio["Avengers"].addEventListener('load', function () {
-                    audio["Avengers"].play();
-                },);
+                $("#felicitacio").show();  
+                $("#felicitacio h1").flashUnlimited();    
+                audio["Avengers"].play();
             }
         });
 
     });    
     $("#resolPuzzle").on("click",function(){
-        /**
-        * Si l'usuari fa clic, totes les peces
-        * es posicionen a la seva posició correta
-        * resolent el puzle
-        */ 
         resolPuzzle();
     });
+    $("#nouPuzzle").on("click",function(){
+        location.reload(); // optim?
+    });
 
-
-   
+    $("#form-menu img").on("click",function(){
+        console.log(this.attr("src"));
+    });    
 });
 
-/**
-* Calcula les mides de les peces en funció de la mida de la imatge
-* i del nombre de files i columnes
-* Estableix les mides dels contenidors
-*/
 function creaPuzzle(){
-  
-    $("#form-joc").css("display", "block");
+    $("#form-joc").show();
     ampladaPeca = Math.floor($("#p-"+nomImatge).width()/numColumnes);
     alcadaPeca = Math.floor($("#p-"+nomImatge).height()/numFiles);
 
@@ -89,22 +65,14 @@ function creaPuzzle(){
     setImatgePosicioPeces();
    
 	$("#marc-puzzle").css("width", (ampladaPeca*numColumnes)+"px");
-	$("#marc-puzzle").css("height",( alcadaPeca*numFiles   )+"px");
+	$("#marc-puzzle").css("height",( alcadaPeca*numFiles)+"px");
     $("#solucio").css("width", "100%");
     $("#solucio").css("height","100%");
     $("#solucio").css("background-image","url(img/"+nomImatge+ extImatge+")");
 
     $(".peca").draggable();
-     
-
 }
 
-/**
-* Crea codi HTML per representar les peces
-* amb un sistema d'identificació f0c0, f0c1,...fxcy
-*
-* @return text (divs html per cada peça)
-*/
 function crearPeces(){
     var htmlPeces = "";
     for (let fila=0; fila<numFiles; fila++){
@@ -116,12 +84,6 @@ function crearPeces(){
     return htmlPeces;
 }
 
-/**
-* Estableix els backgroud de la peça, ajustada a la imatge i 
-* a la posició correcte de la peça
-* Estableix una posició aleatoria (left, top) per a cada peça. Barreja.
-*
-*/
 function setImatgePosicioPeces(){
     $(".peca").css("background-image","url(img/"+nomImatge+ extImatge+")");
     for (let fila=0; fila<numFiles; fila++){
@@ -129,21 +91,10 @@ function setImatgePosicioPeces(){
             $("#f"+fila+"c"+columna).css("background-position", (-(columna)*ampladaPeca)+"px "+(-(fila)*alcadaPeca)+"px");   
             $("#f"+fila+"c"+columna).css("left", Math.floor(Math.random()*((numColumnes-1)*ampladaPeca))+"px ");
             $("#f"+fila+"c"+columna).css("top", Math.floor(Math.random()*((numFiles-1)*alcadaPeca))+"px ");
+            $("#f"+fila+"c"+columna).css("z-index","10");
         }        
     }   
 }
-
-
-/**
-* PosicionaPeca calcula la posició correcte i 
-* revisa si la distància entre la posició actual
-* i la posició correcte és inferior a una 
-* distància determinada, utilitzant la funció distanciaDosPunts.
-* Si aquesta avaluació és positiva, mou la peça a la posició correcte
-*
-* @para peca (peça que l'usuari ha alliberat amb el ratolí)
-*  
-*/   
 
 function posicionaPeca(peca){
    
@@ -153,60 +104,44 @@ function posicionaPeca(peca){
     let row=parseInt(elem_id[1]);
     let col=parseInt(elem_id[3]);
 
-    let h=$("#p-"+nomImatge).height()
-    let l=$("#p-"+nomImatge).width()
-    console.log(row,col, " - ", h,l);
+    let h=$("#marc-puzzle").height()
+    let l=$("#marc-puzzle").width()
 
-
-    // var local?
-    let posicioPecaCorrecte=[l - l/col,h - h/row]; 
-    console.log(posicioPecaCorrecte);
-
-    if (distanciaDosPunts(posicioPeca, posicioPecaCorrecte)<10){  
+    posicioPecaCorrecte={
+        left:col*l/numColumnes, // x
+        top:row*h/numFiles // y
+    };
+    if (distanciaDosPunts(posicioPeca, posicioPecaCorrecte)<50){  
         console.log(elem_id, "correcte!");
-        peca.css("left", posicioPecaCorrecte[1]+"px ");
-        peca.css("top", posicioPecaCorrecte[0]+"px "); 
+        peca.css("left", posicioPecaCorrecte.left+"px ");
+        peca.css("top", posicioPecaCorrecte.top+"px "); 
+        peca.css("z-index","1");
         peca.draggable("disable");
     }
 }
 
-/**
-* Posa totes les peces al seu lloc correcte
-*
-* @para 
-* @return 
-*/
+
 function resolPuzzle(){
-    /**TASCA *****************************
-    * 4.- Posiciona totes les peces a la 
-    * seva posició correcte, resolent el puzle
-    *  
-    */ 
+    $(".peca").css("transition", "all 2s");
+    let h=$("#marc-puzzle").height(), l=$("#marc-puzzle").width();
     for (let fila=0; fila<numFiles; fila++){
         for (let columna=0; columna<numColumnes; columna++){
-            $("#f"+fila+"c"+columna).css("top", +"px");
-            $("#f"+fila+"c"+columna).css("left", +"px");
+            $("#f"+fila+"c"+columna).css("top", (fila*l/numFiles)+"px");
+            $("#f"+fila+"c"+columna).css("left", (columna*l/numColumnes)+"px");
         }        
    }
+   
 }
-/**
-* Revisa si totes les peces son al seu lloc
-*
-* @return bool (true si totes les peces son al seu lloc)
-*/
+
 function puzzleResolt(){
-    /**TASCA *****************************
-    * 5.- Revisa totes les peces i les seves posicions actuals i compara
-    * aquestes poscions amb les posicions correctes que haurien de tenir
-    * En cas que totes les peces siguin a la seva posició 
-    * correcte, retorna cert
-    *  
-    */ 
-    let h=$("#p-"+nomImatge).height()
-    let l=$("#p-"+nomImatge).width()
+    let h=$("#p-"+nomImatge).height(), l=$("#p-"+nomImatge).width();
     for (let fila=0; fila<numFiles; fila++){
         for (let columna=0; columna<numColumnes; columna++){
-            if (distanciaDosPunts([l - l/columna,h - h/fila], $("#f"+fila+"c"+columna).position())>10){
+            posicioPecaCorrecte={
+                left:columna*l/numColumnes, // x
+                top:fila*h/numFiles // y
+            }; 
+            if (distanciaDosPunts(posicioPecaCorrecte, $("#f"+fila+"c"+columna).position())>10){
                 return false;
             }
         }        
@@ -214,24 +149,6 @@ function puzzleResolt(){
    return true
 }
 
-
-
-
-
-/**
-* Calcula la distància entre dos punts
-*
-* @para puntA, puntB 
-* coordenada superior esquerra de la peca (pA) i de la seva posició correcte (pB)
-* @return Distancia entre els dos punts en un pla cartesià
-*/
 function distanciaDosPunts(puntA, puntB){
-   /**TASCA *****************************
-    * 3.- Reviseu la fórmula de càlcul de distància entre dos punts
-    * a la lliçó 5: Col·lisions  dels apunts
-    *  
-    */ 
+    return (Math.sqrt( Math.pow( puntB.left-puntA.left,2 ) + Math.pow( puntB.top-puntA.top ,2) ));
 }
-
-
-posicionaPeca($("#f1c2"));
