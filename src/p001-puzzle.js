@@ -17,8 +17,10 @@ $(document).ready(function(){
     /*****************************************************************/
           
     //Comença el joc
-    $("#jugar").on("click",function(){
+    $(".jugar").on("click",function(){
+
         console.log("start");
+
         creaPuzzle();
         $(".peca")
         .mousedown(function(){
@@ -62,6 +64,8 @@ $(document).ready(function(){
         */ 
         resolPuzzle();
     });
+
+
    
 });
 
@@ -72,6 +76,7 @@ $(document).ready(function(){
 */
 function creaPuzzle(){
   
+    $("#form-joc").css("display", "block");
     ampladaPeca = Math.floor($("#p-"+nomImatge).width()/numColumnes);
     alcadaPeca = Math.floor($("#p-"+nomImatge).height()/numFiles);
 
@@ -87,7 +92,7 @@ function creaPuzzle(){
 	$("#marc-puzzle").css("height",( alcadaPeca*numFiles   )+"px");
     $("#solucio").css("width", "100%");
     $("#solucio").css("height","100%");
-    $("#solucio").css("background-image","url(imatges/"+nomImatge+ extImatge+")");
+    $("#solucio").css("background-image","url(img/"+nomImatge+ extImatge+")");
 
     $(".peca").draggable();
      
@@ -118,7 +123,7 @@ function crearPeces(){
 *
 */
 function setImatgePosicioPeces(){
-    $(".peca").css("background-image","url(imatges/"+nomImatge+ extImatge+")");
+    $(".peca").css("background-image","url(img/"+nomImatge+ extImatge+")");
     for (let fila=0; fila<numFiles; fila++){
         for (let columna=0; columna<numColumnes; columna++){
             $("#f"+fila+"c"+columna).css("background-position", (-(columna)*ampladaPeca)+"px "+(-(fila)*alcadaPeca)+"px");   

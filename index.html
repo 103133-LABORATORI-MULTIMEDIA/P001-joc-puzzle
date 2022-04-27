@@ -12,12 +12,12 @@
     <!-- Formulari selecciona la imatge i el número de peces del puzle.  -->
 
     <div id="form-menu">
-      <p><input type="button" value="JUGAR" id="jugar" /></p>
+      <p><input type="button" value="JUGAR" id="jugar" class="jugar"/></p>
     </div>
 
-    <div id="form-joc">
+    <div id="form-joc" style="display: none">
       <p style="text-align: center">
-        <input type="button" value="Tornar a jugar" id="nouPuzzle" />
+        <input type="button" value="Tornar a jugar" id="nouPuzzle" class="jugar"/>
       </p>
       <div id="marc-puzzle">
         <div id="solucio"></div>
@@ -44,3 +44,8 @@
     <script src="src/p001-puzzle.js"></script>
   </body>
 </html>
+
+<!--
+  hem afegit un class="jugar" a #jugar i #nouPuzzle per tal de no crear unaltre
+  funcio per tornar a jugar ja que alfinal fan la mateixa cosa.
+-->
