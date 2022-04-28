@@ -2,6 +2,7 @@
 var numFiles=2, numColumnes=2, rightPlaceCnt=0;
 var nomImatge="img-2", extImatge=".jpg"; 
 var fsolved=false, solved=false;
+var ampladaPeca=0, alcadaPeca=0;
 
 let audio={
     "Avengers":new Audio("audio/vengadores.mp3"),
@@ -17,6 +18,7 @@ $.fn.flashUnlimited=function(){
 
 $(function(){
     $("#jugar").on("click",function(){
+
         $("#form-menu").hide();
         $("#felicitacio").hide();
         
@@ -113,11 +115,10 @@ function posicionaPeca(peca){
     let elem_id=peca.attr('id');
 
     posicioPecaCorrecte={
-        left:parseInt(elem_id[3])*$("#marc-puzzle").width()/numColumnes,    // x
-        top:parseInt(elem_id[1])*$("#marc-puzzle").height()/numFiles        // y
+        left:parseInt(elem_id[3])*ampladaPeca,    // x
+        top:parseInt(elem_id[1])*alcadaPeca       // y
     };
     
-
     if (
         distanciaDosPunts(posicioPeca, posicioPecaCorrecte)<50 && 
         !$(peca).data("ui-draggable").options.disabled
@@ -139,8 +140,8 @@ function resolPuzzle(){
     for (let fila=0; fila<numFiles; fila++){
         for (let columna=0; columna<numColumnes; columna++){
             $("#f"+fila+"c"+columna).css({
-                "top":(fila*$("#marc-puzzle").height()/numFiles)+"px",
-                "left":(columna*$("#marc-puzzle").width()/numColumnes)+"px"
+                "left":(columna*ampladaPeca)+"px",
+                "top":(fila*alcadaPeca)+"px"
             });
         }        
     }
@@ -152,17 +153,33 @@ function puzzleResolt(){
     for (let fila=0; fila<numFiles; fila++){
         for (let columna=0; columna<numColumnes; columna++){
             posicioPecaCorrecte={
-                left:columna*l/numColumnes, // x
-                top:fila*h/numFiles         // y
+                left:columna*ampladaPeca, // x
+                top:fila*alcadaPeca         // y
             }; 
             x=$("#f"+fila+"c"+columna).position();
-            if (! (posicioPecaCorrecte.left == x.left && posicioPecaCorrecte.top != x.top)){
+
+            if (!(
+                posicioPecaCorrecte.left === x.left && 
+                posicioPecaCorrecte.top  === x.top
+            )){
                 return false;
             }
         }        
-   }
-   deshabilitaBoto("resolPuzzle");
-   return true
+    }
+
+    /* 
+        Nosaltres hem afegit un comptador de peces ben posades. 
+        Pertant es podria simplificar molt mes aquesta funcio.
+
+        if (rightPlaceCnt==numColumnes*numFiles){
+            deshabilitaBoto("resolPuzzle");
+            return true;
+        } return false;
+
+    */
+    
+    deshabilitaBoto("resolPuzzle");
+    return true
 }
 
 function distanciaDosPunts(puntA, puntB){
