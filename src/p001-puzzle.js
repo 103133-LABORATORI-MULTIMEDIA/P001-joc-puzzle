@@ -15,7 +15,7 @@ $.fn.flashUnlimited=function(){
     });
 }
 
-$(document).ready(function(){
+$(function(){
     $("#jugar").on("click",function(){
         $("#form-menu").hide();
         $("#felicitacio").hide();
@@ -48,7 +48,7 @@ $(document).ready(function(){
         $("#"+nomImatge).css("border-color", "transparent");
         $(this).css("border-color", "black");
         nomImatge=$(this).attr("id");
-    });    
+    });
 });
 
 
@@ -153,9 +153,10 @@ function puzzleResolt(){
         for (let columna=0; columna<numColumnes; columna++){
             posicioPecaCorrecte={
                 left:columna*l/numColumnes, // x
-                top:fila*h/numFiles // y
+                top:fila*h/numFiles         // y
             }; 
-            if (distanciaDosPunts(posicioPecaCorrecte, $("#f"+fila+"c"+columna).position())>10){
+            x=$("#f"+fila+"c"+columna).position();
+            if (! (posicioPecaCorrecte.left == x.left && posicioPecaCorrecte.top != x.top)){
                 return false;
             }
         }        
