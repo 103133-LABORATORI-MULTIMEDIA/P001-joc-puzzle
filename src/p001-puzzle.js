@@ -149,7 +149,6 @@ function resolPuzzle(){
 }
 
 function puzzleResolt(){
-    let h=$("#p-"+nomImatge).height(), l=$("#p-"+nomImatge).width();
     for (let fila=0; fila<numFiles; fila++){
         for (let columna=0; columna<numColumnes; columna++){
             posicioPecaCorrecte={
